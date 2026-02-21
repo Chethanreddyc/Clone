@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck,
@@ -320,6 +321,13 @@ function ServiceModal({ service, onClose }) {
 export default function App() {
   const [selected, setSelected] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const goToPage = (svc) => {
+    if (svc.id === "threat-detection") return navigate("/threat-detection");
+    if (svc.id === "phishing-mail") return navigate("/phishing");
+    setSelected(svc);
+  };
 
   return (
     <div className="min-h-screen bg-[#020408] text-white">
@@ -551,7 +559,7 @@ export default function App() {
               >
                 <div
                   className="flex h-full flex-col p-6"
-                  onClick={() => setSelected(svc)}
+                  onClick={() => goToPage(svc)}
                 >
                   {/* Tag + status */}
                   <div className="mb-5 flex items-center justify-between">
@@ -633,7 +641,7 @@ export default function App() {
                         orange: "border-orange-500/30 text-orange-400 hover:bg-orange-500/15",
                       }[svc.glow]
                     } bg-white/[0.03]`}
-                    onClick={(e) => { e.stopPropagation(); setSelected(svc); }}
+                    onClick={(e) => { e.stopPropagation(); goToPage(svc); }}
                   >
                     LAUNCH <ChevronRight className="h-3.5 w-3.5" />
                   </button>
